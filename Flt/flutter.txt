@@ -1,0 +1,2281 @@
+# Questions
+
+########################################################################
+
+**Steps :** 
+
+1. create an Empty flutter app using :   **flutter create --empty app_name**
+2. go to app using : **cd app_name**
+3. To test app run flutter application using : **flutter run**
+4. In your app folder go to lib and create an dart file : **eg . question1.dart, card.dart etc**
+5. just copy paste given code : **Follow the instructions (Optional Question Based):**
+    
+    **Adding Image:** 
+    
+    1. create assets folder in your app root folder for Images : **app_name/assets/image.png**
+    2. add image in **pubspec.yaml : Like this**
+    
+    ```
+    flutter:
+      uses-material-design: true
+      assets:
+          - assets/image.png
+    ```
+    
+    iii.  use image in your file :
+    
+    ```
+    child: Image.asset(
+                  'assets/image.png', // your image path
+    ```
+    
+    iv. run in terminal: **flutter pub get ||** if not working use: **flutter clean** then use **flutter pub get**
+    
+    v. Run app: **flutter run → select device → Output**
+    
+    **Adding google fonts:** 
+    
+    1. In **pubspec.yaml**  file add :
+    
+    ```
+    dependencies:
+      flutter:
+        sdk: flutter  
+      google_fonts: ^6.2.1
+    ```
+    
+    ii.   Import if not already Imported in Question file  : 
+    
+    **import 'package:google_fonts/google_fonts.dart';** 
+    
+    iii.  use given font: Like This :
+    
+    | **Font Name** | **Code Example** |
+    | --- | --- |
+    | **Roboto** | style: GoogleFonts.roboto(fontSize: 20) |
+    | **Open Sans** | style: GoogleFonts.openSans(fontSize: 20) |
+    | **Lato** | style: GoogleFonts.lato(fontSize: 20) |
+    | **Montserrat** | style: GoogleFonts.montserrat(fontSize: 20) |
+    | **Poppins** | style: GoogleFonts.poppins(fontSize: 20) |
+    
+    iv.  eg . **GoogleFonts.fontName()**
+    
+    ```dart
+    style: GoogleFonts.pacifico( // font name is pacifico
+                  fontSize: 28,
+                  color: Colors.purple,
+                  fontWeight: FontWeight.bold,
+                ),
+    ```
+    
+    v.  run in terminal: **flutter pub get ||** if not working use: **flutter clean** then use **flutter pub get.**
+    
+    vi. Run app: **flutter run → select device → Output**
+    
+    when you add something in **pubspec.yaml** run following commands in Terminal:
+    
+    1. **flutter pub get**
+    2. if not working use: **flutter clean** then use **flutter pub get**
+6. Update main.dart file : Follow Instructions
+    1. import file in main.dart using : ***import* 'question1.dart';** 
+    2. In main.dart Remove the Text:(’Hello world!’) from : **child: Text('Hello World!'),**
+    3. Add class name : **child: Question_answer(),**
+    4. **Optional : change font, Image path, details etc.**
+7. Run flutter app: flutter run
+
+########################################################################
+
+1. **Container with Border, Margin, Padding & Background (Flutter)**
+
+```
+// Container with Border, Margin, Padding & Background (Flutter)
+
+import 'package:flutter/material.dart';
+class Question_answer extends StatelessWidget {
+  const Question_answer({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.all(20), // outer space
+      padding: const EdgeInsets.all(16), // inner space
+      width: 350,
+      decoration: BoxDecoration(
+        color: Colors.lightBlue.shade50,
+        border: Border.all(color: Colors.blueAccent, width: 2),
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 8,
+            offset: Offset(2, 4),
+          ),
+        ],
+      ),
+      child: const Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Q: What is Flutter?",
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.blueAccent,
+            ),
+          ),
+          SizedBox(height: 10),
+          Text(
+            "A: Flutter is an open-source UI toolkit by Google used to build natively compiled applications for mobile, web, and desktop from a single codebase.",
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.black87,
+              height: 1.4,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+```
+
+########################################################################
+
+1. **Build a Birthday Wishing Card**
+
+```dart
+// Build a Birthday Wishing Card
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+class Question_answer extends StatelessWidget {
+  const Question_answer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.pink[50],
+      body: Center(
+        child: Card(
+          elevation: 10,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          shadowColor: Colors.pinkAccent,
+          color: Colors.white,
+          child: Container(
+            width: 320,
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              gradient: const LinearGradient(
+                colors: [Colors.pinkAccent, Colors.orangeAccent],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(15),
+                  child: Image.network(
+                    './assets/image.png', // Replace with your image path
+                    height: 150,
+                    width: 250,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  "🎉 Happy Birthday! 🎂",
+                  style: GoogleFonts.poppins(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    shadows: const [
+                      Shadow(
+                        offset: Offset(2, 2),
+                        blurRadius: 5,
+                        color: Colors.black45,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  "Wishing you a day filled with love, laughter, and joy!",
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.openSans(
+                    fontSize: 16,
+                    color: Colors.white70,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+```
+
+########################################################################
+
+1. **Create an Employee ID Card Add photo, name, position, QR code, gradient background**
+
+```dart
+//**Create an Employee ID Card**
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:qr_flutter/qr_flutter.dart';
+//add qr_flutter: ^4.1.0 to pubspec.yaml and run flutter pub get
+
+class Question_answer extends StatelessWidget {
+  const Question_answer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.grey[200],
+      body: Center(
+        child: Container(
+          width: 300,
+          height: 450,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(25),
+            gradient: const LinearGradient(
+              colors: [Colors.blueAccent, Colors.lightBlue],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black26,
+                blurRadius: 10,
+                spreadRadius: 2,
+                offset: const Offset(3, 5),
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // 🔹 Company Logo
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: CircleAvatar(
+                  backgroundColor: Colors.white,
+                  radius: 30,
+                  child: Icon(Icons.business, size: 30, color: Colors.blue[700]),
+                ),
+              ),
+              const SizedBox(height: 10),
+
+              // 🔹 Profile Photo
+              const CircleAvatar(
+                radius: 45,
+                backgroundImage: NetworkImage(
+                  '/assets/image.png', // your image path
+                ),
+              ),
+              const SizedBox(height: 15),
+
+              // 🔹 Employee Name
+              Text(
+                "XYZ",
+                style: GoogleFonts.poppins(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+
+              // 🔹 Employee Position
+              Text(
+                "Software Developer",
+                style: GoogleFonts.openSans(
+                  fontSize: 16,
+                  color: Colors.white70,
+                ),
+              ),
+              const SizedBox(height: 20),
+
+              // 🔹 QR Code Section
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: QrImageView(
+                  data: "Employee ID: 001 | XYZ | Developer",
+                  version: QrVersions.auto,
+                  size: 100.0,
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              // 🔹 ID Number
+              Text(
+                "Employee ID: 001",
+                style: GoogleFonts.montserrat(
+                  color: Colors.white,
+                  fontSize: 14,
+                ),
+              ),
+
+              const Spacer(),
+
+              // 🔹 Bottom Bar
+              Container(
+                width: double.infinity,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: Colors.white24,
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(25),
+                    bottomRight: Radius.circular(25),
+                  ),
+                ),
+                child: Center(
+                  child: Text(
+                    "XYZ Corporation",
+                    style: GoogleFonts.poppins(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+########################################################################
+
+1. **Build a Student ID Card Include barcode, roll no, college name, photo**
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:barcode_widget/barcode_widget.dart';
+//add barcode_widget: ^2.0.4 to pubspec.yaml and run flutter pub get
+
+class Question_answer extends StatelessWidget {
+  const Question_answer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.grey[100],
+      body: Center(
+        child: Container(
+          width: 320,
+          height: 480,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(25),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black26,
+                blurRadius: 10,
+                spreadRadius: 3,
+                offset: const Offset(3, 5),
+              ),
+            ],
+            border: Border.all(color: Colors.blueAccent, width: 2),
+          ),
+          child: Column(
+            children: [
+              // 🔹 College Name Header
+              Container(
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  color: Colors.blueAccent,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(25),
+                    topRight: Radius.circular(25),
+                  ),
+                ),
+                padding: const EdgeInsets.all(12),
+                child: Text(
+                  " College of Engineering",
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.poppins(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              // 🔹 Student Photo
+              const CircleAvatar(
+                radius: 50,
+                backgroundImage: NetworkImage(
+                  './assets/image.png', // your image path
+                ),
+              ),
+
+              const SizedBox(height: 15),
+
+              // 🔹 Student Name
+              Text(
+                "Xyz",
+                style: GoogleFonts.montserrat(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blueAccent,
+                ),
+              ),
+
+              const SizedBox(height: 8),
+
+              // 🔹 Roll No
+              Text(
+                "Roll No: xyz",
+                style: GoogleFonts.openSans(
+                  fontSize: 16,
+                  color: Colors.black87,
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              // 🔹 Course and Department
+              Text(
+                "B.Tech - Computer Science",
+                style: GoogleFonts.lato(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black87,
+                ),
+              ),
+
+              const Spacer(),
+
+              // 🔹 Barcode Section
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                child: BarcodeWidget(
+                  barcode: Barcode.code128(),
+                  data: '61516 - xyz',
+                  width: 250,
+                  height: 70,
+                  drawText: false,
+                ),
+              ),
+
+              // 🔹 Footer
+              Container(
+                width: double.infinity,
+                height: 40,
+                decoration: const BoxDecoration(
+                  color: Colors.blueAccent,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(25),
+                    bottomRight: Radius.circular(25),
+                  ),
+                ),
+                child: Center(
+                  child: Text(
+                    "Student ID Card - 2025",
+                    style: GoogleFonts.poppins(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+########################################################################
+
+1. **Display a circular profile image Use CircleAvatar, ClipRRect, or DecorationImage**
+
+```dart
+import 'package:flutter/material.dart';
+
+class Question_answer extends StatelessWidget {
+  const Question_answer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.grey[100],
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // 🔹 1. Using CircleAvatar
+            const Text(
+              "Using CircleAvatar",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
+            const SizedBox(height: 10),
+            const CircleAvatar(
+              radius: 50,
+              backgroundImage: NetworkImage(
+                '/assets/image.png', // Replace with your image path
+              ),
+            ),
+
+            const SizedBox(height: 30),
+
+            // 🔹 2. Using ClipRRect
+            const Text(
+              "Using ClipRRect",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
+            const SizedBox(height: 10),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(50),
+              child: Image.network(
+                '/assets/image.png', // Replace with your image path
+                width: 100,
+                height: 100,
+                fit: BoxFit.cover,
+              ),
+            ),
+
+            const SizedBox(height: 30),
+
+            // 🔹 3. Using DecorationImage inside Container
+            const Text(
+              "Using DecorationImage",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
+            const SizedBox(height: 10),
+            Container(
+              width: 100,
+              height: 100,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.blueAccent, width: 2),
+                image: const DecorationImage(
+                  image: NetworkImage(
+                    '/assets/image.png', // Replace with your image path
+                  ),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+
+########################################################################
+
+1. **Use Google Fonts in different widgets Try GoogleFonts.lato(), GoogleFonts.pacifico() etc.**
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+class Question_answer extends StatelessWidget {
+  const Question_answer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.grey[100],
+      appBar: AppBar(
+        title: Text(
+          "Google Fonts Demo",
+          style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.blueAccent,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: ListView(
+          children: [
+            // 🔹 Lato Font
+            Text(
+              "Lato Font Example",
+              style: GoogleFonts.lato(
+                fontSize: 24,
+                fontWeight: FontWeight.w700,
+                color: Colors.blueAccent,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              "Lato is a clean, modern sans-serif typeface perfect for body text and UI design.",
+              style: GoogleFonts.lato(fontSize: 16),
+            ),
+            const Divider(height: 30),
+
+            // 🔹 Pacifico Font
+            Text(
+              "Pacifico Font Example",
+              style: GoogleFonts.pacifico(
+                fontSize: 26,
+                color: Colors.pinkAccent,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              "Pacifico adds a fun, handwritten style—great for greeting cards or creative banners.",
+              style: GoogleFonts.roboto(fontSize: 16),
+            ),
+            const Divider(height: 30),
+
+            // 🔹 Poppins Font
+            Text(
+              "Poppins Font Example",
+              style: GoogleFonts.poppins(
+                fontSize: 24,
+                fontWeight: FontWeight.w600,
+                color: Colors.deepPurple,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              "Poppins is geometric and modern, suitable for professional web designs.",
+              style: GoogleFonts.poppins(fontSize: 16),
+            ),
+            const Divider(height: 30),
+
+            // 🔹 Oswald Font
+            Text(
+              "Oswald Font Example",
+              style: GoogleFonts.oswald(
+                fontSize: 24,
+                color: Colors.teal,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              "Oswald works well for headings and attention-grabbing titles.",
+              style: GoogleFonts.oswald(fontSize: 16),
+            ),
+            const Divider(height: 30),
+
+            // 🔹 Merriweather Font (Serif Example)
+            Text(
+              "Merriweather Font Example",
+              style: GoogleFonts.merriweather(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: Colors.brown,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              "Merriweather is a serif font, elegant and perfect for formal documents.",
+              style: GoogleFonts.merriweather(fontSize: 16),
+            ),
+
+            const Divider(height: 30),
+
+            // 🔹 Example in Button
+            ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blueAccent,
+              ),
+              child: Text(
+                "Click Me!",
+                style: GoogleFonts.lato(
+                  fontSize: 18,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+
+########################################################################
+
+1. **Create two pages and route between them Use Navigator.push and Navigator.pop**
+
+```dart
+import 'package:flutter/material.dart';
+
+class Question_answer extends StatelessWidget {
+  const Question_answer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("🏠 Home Page"),
+        backgroundColor: Colors.blueAccent,
+      ),
+      body: Center(
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.blueAccent,
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+          ),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const SecondPage()),
+            );
+          },
+          child: const Text(
+            "Go to Second Page ➡️",
+            style: TextStyle(fontSize: 18, color: Colors.white),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class SecondPage extends StatelessWidget {
+  const SecondPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("📄 Second Page"),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Center(
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.deepPurple,
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: const Text(
+            "⬅️ Go Back to Home",
+            style: TextStyle(fontSize: 18, color: Colors.white),
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+########################################################################
+
+1. **Linking Add a button that opens a website link Use url_launcher package**
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+// add url_launcher: ^6.1.7 to pubspec.yaml in dependencies and run flutter pub get
+
+class Question_answer extends StatelessWidget {
+  const Question_answer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: const Text("🌐 Open Link Example")),
+        body: Center(
+          child: ElevatedButton(
+            onPressed: _launchURL,
+            child: const Text("Visit Website"),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+void _launchURL() async {
+  const url = 'https://google.com';
+  if (await canLaunchUrl(Uri.parse(url))) {
+    await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
+```
+
+########################################################################
+
+1. **Layouts Create a Row with 3 colored boxes evenly spaced Learn MainAxisAlignment.spaceEvenly**
+
+```dart
+import 'package:flutter/material.dart';
+
+class Question_answer extends StatelessWidget {
+  const Question_answer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: const Text("Row Layout Example")),
+        body: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Container(
+                width: 80,
+                height: 80,
+                color: Colors.red,
+              ),
+              Container(
+                width: 80,
+                height: 80,
+                color: Colors.green,
+              ),
+              Container(
+                width: 80,
+                height: 80,
+                color: Colors.blue,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+########################################################################
+
+1. **Layouts – Column with Image, Title & Button**
+
+```
+import 'package:flutter/material.dart';
+
+class Question_answer extends StatelessWidget {
+  const Question_answer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Column Layout")),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset('assets/image.png', width: 100, height: 100),
+            const SizedBox(height: 20),
+            const Text(
+              "Welcome to Flutter!",
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {},
+              child: const Text("Click Me"),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+
+########################################################################
+
+1. **Basic Calculator UI**
+
+```
+import 'package:flutter/material.dart';
+
+class CalculatorApp extends StatefulWidget {
+  const CalculatorApp({super.key});
+
+  @override
+  State<CalculatorApp> createState() => _CalculatorAppState();
+}
+
+class _CalculatorAppState extends State<CalculatorApp> {
+  final TextEditingController num1 = TextEditingController();
+  final TextEditingController num2 = TextEditingController();
+  double result = 0;
+
+  void calculate(String op) {
+    double a = double.tryParse(num1.text) ?? 0;
+    double b = double.tryParse(num2.text) ?? 0;
+
+    setState(() {
+      if (op == '+') result = a + b;
+      if (op == '-') result = a - b;
+      if (op == '*') result = a * b;
+      if (op == '/') result = b != 0 ? a / b : 0;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Basic Calculator")),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            TextField(controller: num1, keyboardType: TextInputType.number, decoration: const InputDecoration(labelText: "Enter First Number")),
+            TextField(controller: num2, keyboardType: TextInputType.number, decoration: const InputDecoration(labelText: "Enter Second Number")),
+            const SizedBox(height: 20),
+            Wrap(
+              spacing: 10,
+              children: [
+                ElevatedButton(onPressed: () => calculate('+'), child: const Text('+')),
+                ElevatedButton(onPressed: () => calculate('-'), child: const Text('-')),
+                ElevatedButton(onPressed: () => calculate('*'), child: const Text('*')),
+                ElevatedButton(onPressed: () => calculate('/'), child: const Text('/')),
+              ],
+            ),
+            const SizedBox(height: 20),
+            Text("Result: $result", style: const TextStyle(fontSize: 22)),
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+
+########################################################################
+
+1. **Form UI – Login & Registration**
+
+```
+import 'package:flutter/material.dart';
+
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final _formKey = GlobalKey<FormState>();
+  bool hidePassword = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Login")),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              TextFormField(
+                decoration: const InputDecoration(labelText: "Email"),
+                validator: (value) => value!.isEmpty ? "Enter Email" : null,
+              ),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: "Password",
+                  suffixIcon: IconButton(
+                    icon: Icon(hidePassword ? Icons.visibility_off : Icons.visibility),
+                    onPressed: () => setState(() => hidePassword = !hidePassword),
+                  ),
+                ),
+                obscureText: hidePassword,
+                validator: (value) => value!.length < 6 ? "Min 6 characters" : null,
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("Login Successful")),
+                    );
+                  }
+                },
+                child: const Text("Login"),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+########################################################################
+
+1. **Buttons — Styled Buttons with Effects**
+
+```
+import 'package:flutter/material.dart';
+
+class Question_answer extends StatelessWidget {
+  const Question_answer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Wrap(
+        spacing: 20,
+        runSpacing: 20,
+        alignment: WrapAlignment.center,
+        children: [
+          ElevatedButton(
+            onPressed: () {},
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.deepPurple,
+              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              elevation: 5,
+            ),
+            child: const Text("Elevated", style: TextStyle(color: Colors.white)),
+          ),
+          OutlinedButton(
+            onPressed: () {},
+            style: OutlinedButton.styleFrom(
+              side: const BorderSide(color: Colors.blue, width: 2),
+              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
+            ),
+            child: const Text("Outlined"),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.favorite),
+            color: Colors.redAccent,
+            tooltip: "Like",
+          ),
+        ],
+      ),
+    );
+  }
+}
+```
+
+########################################################################
+
+1. **Page Routing — Bottom Navigation with 3 Pages**
+
+```
+import 'package:flutter/material.dart';
+
+class Question_answer extends StatefulWidget {
+  const Question_answer({super.key});
+
+  @override
+  State<Question_answer> createState() => _Question_answerState();
+}
+
+class _Question_answerState extends State<Question_answer> {
+  int selectedIndex = 0;
+
+  final pages = const [
+    Center(child: Text("🏠 Home Page", style: TextStyle(fontSize: 24))),
+    Center(child: Text("🔍 Search Page", style: TextStyle(fontSize: 24))),
+    Center(child: Text("⚙️ Settings Page", style: TextStyle(fontSize: 24))),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: pages[selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: selectedIndex,
+        onTap: (index) => setState(() => selectedIndex = index),
+        selectedItemColor: Colors.deepPurple,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Settings"),
+        ],
+      ),
+    );
+  }
+}
+```
+
+########################################################################
+
+1. **AppBar & Drawer — Add Logo and Links**
+
+```
+import 'package:flutter/material.dart';
+
+class Question_answer extends StatelessWidget {
+  const Question_answer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("My App"),
+        backgroundColor: Colors.blueAccent,
+        leading: const Icon(Icons.flutter_dash),
+        actions: [
+          IconButton(onPressed: () {}, icon: const Icon(Icons.notifications)),
+          IconButton(onPressed: () {}, icon: const Icon(Icons.account_circle)),
+        ],
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(color: Colors.blueAccent),
+              child: Center(
+                child: Text("Menu", style: TextStyle(color: Colors.white, fontSize: 24)),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.home),
+              title: const Text("Home"),
+              onTap: () {},
+            ),
+            ListTile(
+              leading: const Icon(Icons.info),
+              title: const Text("About"),
+              onTap: () {},
+            ),
+            ListTile(
+              leading: const Icon(Icons.logout),
+              title: const Text("Logout"),
+              onTap: () {},
+            ),
+          ],
+        ),
+      ),
+      body: const Center(child: Text("AppBar & Drawer Example", style: TextStyle(fontSize: 20))),
+    );
+  }
+}
+```
+
+########################################################################
+
+1. **Product Card**
+
+```
+import 'package:flutter/material.dart';
+
+class Question_answer extends StatelessWidget {
+  const Question_answer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Card(
+        elevation: 8,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        child: SizedBox(
+          width: 250,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ClipRRect(
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
+                child: Image.asset('assets/product.png', height: 150, fit: BoxFit.cover),
+              ),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text("Wireless Headphones",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              ),
+              const Text("₹1,999", style: TextStyle(color: Colors.green, fontSize: 16)),
+              const SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: () {},
+                child: const Text("Buy Now"),
+              ),
+              const SizedBox(height: 10),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+########################################################################
+
+1. **Flutter Info Card**
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+// add url_launcher: ^6.1.7 to pubspec.yaml in dependencies and run flutter pub get
+
+class Question_answer extends StatelessWidget {
+  const Question_answer({super.key});
+
+  Future<void> _openFlutter() async {
+    final Uri url = Uri.parse('https://flutter.dev');
+    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+      throw 'Could not launch $url';
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Card(
+        elevation: 5,
+        color: Colors.blue[50],
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset('assets/image.png', width: 100),
+              const SizedBox(height: 10),
+              const Text(
+                "Flutter",
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.blue),
+              ),
+              const SizedBox(height: 10),
+              const Text(
+                "Build beautiful native apps for mobile, web, and desktop — all from a single codebase.",
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: _openFlutter,
+                child: const Text("Visit flutter.dev"),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+########################################################################
+
+1. **Event Calendar**
+
+```
+import 'package:flutter/material.dart';
+import 'package:table_calendar/table_calendar.dart';
+// add table_calendar: ^3.1.2 to pubspec.yaml in dependencies and run flutter pub get
+
+class Question_answer extends StatefulWidget {
+  const Question_answer({super.key});
+
+  @override
+  State<Question_answer> createState() => _Question_answerState();
+}
+
+class _Question_answerState extends State<Question_answer> {
+  DateTime selectedDay = DateTime.now();
+  DateTime focusedDay = DateTime.now();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Event Calendar")),
+      body: Padding(
+        padding: const EdgeInsets.all(10),
+        child: TableCalendar(
+          focusedDay: focusedDay,
+          firstDay: DateTime.utc(2020),
+          lastDay: DateTime.utc(2030),
+          selectedDayPredicate: (day) => isSameDay(selectedDay, day),
+          onDaySelected: (selected, focused) {
+            setState(() {
+              selectedDay = selected;
+              focusedDay = focused;
+            });
+          },
+          calendarStyle: const CalendarStyle(
+            todayDecoration: BoxDecoration(color: Colors.blue, shape: BoxShape.circle),
+            selectedDecoration: BoxDecoration(color: Colors.deepPurple, shape: BoxShape.circle),
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+########################################################################
+
+1. **Quiz UI — MCQ + Timer + Score**
+
+```
+import 'dart:async';
+import 'package:flutter/material.dart';
+
+class Question_answer extends StatefulWidget {
+  const Question_answer({super.key});
+
+  @override
+  State<Question_answer> createState() => _Question_answerState();
+}
+
+class _Question_answerState extends State<Question_answer> {
+  int currentIndex = 0;
+  int score = 0;
+  int timeLeft = 15;
+  Timer? timer;
+  String? selectedOption;
+
+  final questions = [
+    {
+      "q": "What is Flutter?",
+      "options": ["SDK", "IDE", "Library", "Language"],
+      "answer": "SDK"
+    },
+    {
+      "q": "Who developed Flutter?",
+      "options": ["Apple", "Microsoft", "Google", "Amazon"],
+      "answer": "Google"
+    }
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    startTimer();
+  }
+
+  void startTimer() {
+    timer?.cancel();
+    timeLeft = 15;
+    timer = Timer.periodic(const Duration(seconds: 1), (t) {
+      setState(() => timeLeft--);
+      if (timeLeft == 0) nextQuestion();
+    });
+  }
+
+  void nextQuestion() {
+    if (selectedOption == questions[currentIndex]['answer']) score++;
+    if (currentIndex < questions.length - 1) {
+      setState(() {
+        currentIndex++;
+        selectedOption = null;
+        startTimer();
+      });
+    } else {
+      timer?.cancel();
+      showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: const Text("Quiz Finished"),
+          content: Text("Your Score: $score / ${questions.length}"),
+          actions: [
+            TextButton(
+                onPressed: () => Navigator.pop(context), child: const Text("OK"))
+          ],
+        ),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final question = questions[currentIndex];
+    return Scaffold(
+      appBar: AppBar(title: const Text("Quiz")),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Time Left: $timeLeft s",
+                style: const TextStyle(color: Colors.red, fontSize: 18)),
+            const SizedBox(height: 10),
+            Text(question['q']!, style: const TextStyle(fontSize: 22)),
+            ...List.generate(
+              (question['options'] as List).length,
+              (i) {
+                final option = question['options']![i];
+                return RadioListTile(
+                  title: Text(option),
+                  value: option,
+                  groupValue: selectedOption,
+                  onChanged: (value) => setState(() => selectedOption = value),
+                );
+              },
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(onPressed: nextQuestion, child: const Text("Next")),
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+
+########################################################################
+
+1. **To-Do App — Add, Done, Delete**
+
+```
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
+// add shared_preferences: ^2.3.2 to pubspec.yaml in dependencies and run flutter pub get
+class Question_answer extends StatefulWidget {
+  const Question_answer({super.key});
+
+  @override
+  State<Question_answer> createState() => _Question_answerState();
+}
+
+class _Question_answerState extends State<Question_answer> {
+  final TextEditingController controller = TextEditingController();
+  List tasks = [];
+
+  @override
+  void initState() {
+    super.initState();
+    loadTasks();
+  }
+
+  void loadTasks() async {
+    final prefs = await SharedPreferences.getInstance();
+    final data = prefs.getString('tasks');
+    if (data != null) setState(() => tasks = json.decode(data));
+  }
+
+  void saveTasks() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('tasks', json.encode(tasks));
+  }
+
+  void addTask() {
+    if (controller.text.isEmpty) return;
+    setState(() => tasks.add({"title": controller.text, "done": false}));
+    controller.clear();
+    saveTasks();
+  }
+
+  void toggleDone(int i) {
+    setState(() => tasks[i]["done"] = !tasks[i]["done"]);
+    saveTasks();
+  }
+
+  void deleteTask(int i) {
+    setState(() => tasks.removeAt(i));
+    saveTasks();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("To-Do List")),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: controller,
+                    decoration: const InputDecoration(
+                      hintText: "Enter Task...",
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                ElevatedButton(onPressed: addTask, child: const Text("Add")),
+              ],
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: tasks.length,
+              itemBuilder: (_, i) {
+                final t = tasks[i];
+                return ListTile(
+                  leading: Checkbox(
+                      value: t["done"], onChanged: (_) => toggleDone(i)),
+                  title: Text(
+                    t["title"],
+                    style: TextStyle(
+                      decoration:
+                          t["done"] ? TextDecoration.lineThrough : null,
+                    ),
+                  ),
+                  trailing:
+                      IconButton(icon: const Icon(Icons.delete), onPressed: () => deleteTask(i)),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+```
+
+########################################################################
+
+1. **Authentication — Email & OTP with Loading**
+
+```
+import 'package:flutter/material.dart';
+import 'dart:async';
+
+class Question_answer extends StatefulWidget {
+  const Question_answer({super.key});
+
+  @override
+  State<Question_answer> createState() => _Question_answerState();
+}
+
+class _Question_answer21State extends State<Question_answer> {
+  final emailCtrl = TextEditingController();
+  final otpCtrl = TextEditingController();
+  bool loading = false;
+
+  void login() {
+    setState(() => loading = true);
+    Timer(const Duration(seconds: 2), () {
+      setState(() => loading = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Login Successful ✅")),
+      );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          TextField(controller: emailCtrl, decoration: const InputDecoration(labelText: "Email")),
+          const SizedBox(height: 15),
+          TextField(controller: otpCtrl, decoration: const InputDecoration(labelText: "OTP")),
+          const SizedBox(height: 25),
+          loading
+              ? const CircularProgressIndicator()
+              : ElevatedButton(onPressed: login, child: const Text("Login")),
+        ],
+      ),
+    );
+  }
+}
+```
+
+########################################################################
+
+1. **Gallery — Grid of Images**
+
+```
+import 'package:flutter/material.dart';
+
+class Question_answer extends StatelessWidget {
+  const Question_answer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final images = List.generate(6, (i) => 'assets/pic${i + 1}.jpg');
+    return GridView.builder(
+      padding: const EdgeInsets.all(10),
+      gridDelegate:
+          const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, crossAxisSpacing: 5, mainAxisSpacing: 5),
+      itemCount: images.length,
+      itemBuilder: (_, i) {
+        return InkWell(
+          onTap: () => ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Clicked Image ${i + 1}"))),
+          child: Image.asset(images[i], fit: BoxFit.cover),
+        );
+      },
+    );
+  }
+}
+```
+
+########################################################################
+
+1.  **E-commerce Product Listing**
+
+```
+import 'package:flutter/material.dart';
+
+class Question_answer extends StatelessWidget {
+  const Question_answer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final products = [
+      {"name": "Shoes", "price": "₹1200", "img": "assets/shoes.png"},
+      {"name": "Watch", "price": "₹2500", "img": "assets/watch.png"},
+    ];
+    return ListView.builder(
+      padding: const EdgeInsets.all(10),
+      itemCount: products.length,
+      itemBuilder: (_, i) {
+        final p = products[i];
+        return Card(
+          margin: const EdgeInsets.symmetric(vertical: 10),
+          child: ListTile(
+            leading: Image.asset(p["img"]!, width: 60),
+            title: Text(p["name"]!, style: const TextStyle(fontWeight: FontWeight.bold)),
+            subtitle: Text(p["price"]!),
+            trailing: IconButton(icon: const Icon(Icons.add_shopping_cart), onPressed: () {}),
+          ),
+        );
+      },
+    );
+  }
+}
+```
+
+########################################################################
+
+1. **Profile Page**
+
+```
+import 'package:flutter/material.dart';
+
+class Question_answer extends StatefulWidget {
+  const Question_answer({super.key});
+
+  @override
+  State<Question_answer> createState() => _Question_answerState();
+}
+
+class _Question_answerState extends State<Question_answer> {
+  final nameCtrl = TextEditingController(text: "xyz");
+  final bioCtrl = TextEditingController(text: "Flutter Developer at Rudransh Development");
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Profile")),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          children: [
+            const CircleAvatar(radius: 50, backgroundImage: AssetImage('assets/profile.jpg')),
+            const SizedBox(height: 20),
+            TextField(controller: nameCtrl, decoration: const InputDecoration(labelText: "Name")),
+            const SizedBox(height: 10),
+            TextField(controller: bioCtrl, decoration: const InputDecoration(labelText: "Bio")),
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                Icon(Icons.facebook, color: Colors.blue),
+                SizedBox(width: 10),
+                Icon(Icons.linked_camera, color: Colors.pink),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+
+########################################################################
+
+1. **Payment Card UI**
+
+```
+import 'package:flutter/material.dart';
+
+class Question_answer extends StatelessWidget {
+  const Question_answer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Card(
+        color: Colors.deepPurple,
+        elevation: 8,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: const [
+              Align(
+                alignment: Alignment.topRight,
+                child: Icon(Icons.credit_card, color: Colors.white, size: 40),
+              ),
+              SizedBox(height: 20),
+              Text("**** **** **** 1234",
+                  style: TextStyle(fontSize: 22, color: Colors.white, letterSpacing: 2)),
+              SizedBox(height: 10),
+              Text("Amount: ₹2,499",
+                  style: TextStyle(fontSize: 18, color: Colors.white70)),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+########################################################################
+
+1. **Image Overlay using Stack**
+
+```
+import 'package:flutter/material.dart';
+
+class Question_answer extends StatelessWidget {
+  const Question_answer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Image.asset('assets/nature.jpg', width: 300, height: 200, fit: BoxFit.cover),
+          Container(color: Colors.black45, width: 300, height: 200),
+          const Positioned(
+            bottom: 20,
+            child: Text(
+              "Beautiful Nature",
+              style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+```
+
+########################################################################
+
+1. **Scrollable List of Cards**
+
+```
+import 'package:flutter/material.dart';
+
+class Question_answer extends StatelessWidget {
+  const Question_answer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final items = List.generate(15, (i) => "Card Item ${i + 1}");
+    return ListView.builder(
+      itemCount: items.length,
+      itemBuilder: (_, i) => Card(
+        margin: const EdgeInsets.all(10),
+        child: ListTile(
+          title: Text(items[i]),
+          subtitle: const Text("Scrollable ListView Example"),
+        ),
+      ),
+    );
+  }
+}
+```
+
+########################################################################
+
+1. **Carousel Slider**
+
+```
+import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+// add carousel_slider: ^4.2.1 to pubspec.yaml in dependencies and run flutter pub get
+class Question_answer extends StatelessWidget {
+  const Question_answer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final imgs = [
+      'assets/slide1.jpg',
+      'assets/slide2.jpg',
+      'assets/slide3.jpg',
+    ];
+    return CarouselSlider(
+      items: imgs.map((img) => Image.asset(img, fit: BoxFit.cover, width: double.infinity)).toList(),
+      options: CarouselOptions(
+        height: 250,
+        autoPlay: true,
+        enlargeCenterPage: true,
+      ),
+    );
+  }
+}
+```
+
+########################################################################
+
+1. **Stopwatch App UI**
+
+```
+import 'dart:async';
+import 'package:flutter/material.dart';
+
+class Question_answer extends StatefulWidget {
+  const Question_answer({super.key});
+
+  @override
+  State<Question_answer> createState() => _Question_answerState();
+}
+
+class _Question_answerState extends State<Question_answer> {
+  int seconds = 0;
+  Timer? timer;
+  bool running = false;
+
+  void startStop() {
+    if (running) {
+      timer?.cancel();
+    } else {
+      timer = Timer.periodic(const Duration(seconds: 1), (_) {
+        setState(() => seconds++);
+      });
+    }
+    setState(() => running = !running);
+  }
+
+  void reset() {
+    timer?.cancel();
+    setState(() {
+      seconds = 0;
+      running = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text("$seconds s", style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold)),
+        const SizedBox(height: 20),
+        Wrap(
+          spacing: 15,
+          children: [
+            ElevatedButton(onPressed: startStop, child: Text(running ? "Stop" : "Start")),
+            ElevatedButton(onPressed: reset, child: const Text("Reset")),
+          ],
+        )
+      ],
+    );
+  }
+}
+```
+
+########################################################################
+
+1. **Feedback Form with Emoji Rating**
+
+```
+import 'package:flutter/material.dart';
+
+class Question_answer extends StatefulWidget {
+  const Question_answer({super.key});
+
+  @override
+  State<Question_answer> createState() => _Question_answerState();
+}
+
+class _Question_answerState extends State<Question_answer> {
+  int selected = 0;
+  final emojis = ["😡", "😕", "😊", "😍", "🤩"];
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text("Rate your experience", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+          const SizedBox(height: 20),
+          Wrap(
+            spacing: 10,
+            children: List.generate(
+              emojis.length,
+              (i) => GestureDetector(
+                onTap: () => setState(() => selected = i),
+                child: Text(
+                  emojis[i],
+                  style: TextStyle(fontSize: 40, opacity: selected == i ? 1 : 0.5),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 30),
+          ElevatedButton(
+            onPressed: () => ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text("Feedback Submitted: ${emojis[selected]}"))),
+            child: const Text("Submit"),
+          ),
+        ],
+      ),
+    );
+  }
+}
+```
+
+########################################################################
+
+1. **Profile Card**
+
+```dart
+import 'package:flutter/material.dart';
+
+class Question_answer extends StatelessWidget {
+  const Question_answer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 8,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      color: Colors.blue.shade50,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const CircleAvatar(
+              radius: 40,
+              backgroundImage: AssetImage('assets/image.png'),
+            ),
+            const SizedBox(height: 10),
+            const Text("XYZ", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+            const Text("Flutter Developer", style: TextStyle(fontSize: 16, color: Colors.grey)),
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                Icon(Icons.email, color: Colors.blue),
+                SizedBox(width: 6),
+                Text("vivek@example.com"),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+
+########################################################################
+
+1. **Food Menu Item Card**
+
+```
+import 'package:flutter/material.dart';
+
+class Question_answer extends StatelessWidget {
+  const Question_answer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: Colors.orange.shade50,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      elevation: 6,
+      child: Column(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(15),
+            child: Image.asset('assets/image.png', height: 140, width: double.infinity, fit: BoxFit.cover),
+          ),
+          const ListTile(
+            title: Text("Cheese Pizza", style: TextStyle(fontWeight: FontWeight.bold)),
+            subtitle: Text("₹299 • Italian Delight"),
+            trailing: Icon(Icons.favorite_border),
+          ),
+        ],
+      ),
+    );
+  }
+}
+```
+
+########################################################################
+
+1. **Weather Card**
+
+```
+import 'package:flutter/material.dart';
+
+class Question_answer extends StatelessWidget {
+  const Question_answer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: Colors.lightBlue.shade100,
+      elevation: 5,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: const [
+            Icon(Icons.wb_sunny, size: 60, color: Colors.orange),
+            SizedBox(height: 10),
+            Text("Pune", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+            Text("28°C • Sunny", style: TextStyle(fontSize: 18)),
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+
+########################################################################
+
+1. **Product Card**
+
+```
+import 'package:flutter/material.dart';
+
+class Question_answer extends StatelessWidget {
+  const Question_answer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 8,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      child: Column(
+        children: [
+          Image.asset('assets/image.png', height: 140, fit: BoxFit.cover),
+          const Padding(
+            padding: EdgeInsets.all(10),
+            child: Column(
+              children: [
+                Text("Wireless Headphones", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                SizedBox(height: 5),
+                Text("₹1999", style: TextStyle(color: Colors.green, fontSize: 16)),
+              ],
+            ),
+          ),
+          ElevatedButton(onPressed: () {}, child: const Text("Buy Now")),
+        ],
+      ),
+    );
+  }
+}
+```
+
+########################################################################
+
+1. **News Card**
+
+```
+import 'package:flutter/material.dart';
+
+class Question_answer extends StatelessWidget {
+  const Question_answer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 4,
+      margin: const EdgeInsets.all(12),
+      child: Column(
+        children: [
+          Image.asset('assets/news.jpg', fit: BoxFit.cover),
+          const ListTile(
+            title: Text("Breaking News: Flutter 4 Released!"),
+            subtitle: Text("The new version comes with performance improvements and new widgets."),
+          ),
+          TextButton(onPressed: () {}, child: const Text("Read More")),
+        ],
+      ),
+    );
+  }
+}
+```
+
+########################################################################
+
+1. **Social Post Card**
+
+```
+import 'package:flutter/material.dart';
+
+class Question_answer extends StatelessWidget {
+  const Question_answer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 6,
+      margin: const EdgeInsets.all(10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const ListTile(
+            leading: CircleAvatar(backgroundImage: AssetImage('assets/profile.jpg')),
+            title: Text(" xyz"),
+            subtitle: Text("2 hrs ago"),
+          ),
+          Image.asset('assets/travel.jpg', fit: BoxFit.cover),
+          const Padding(
+            padding: EdgeInsets.all(10),
+            child: Text("Exploring the beauty of nature 🌿"),
+          ),
+          ButtonBar(
+            children: [
+              IconButton(onPressed: () {}, icon: const Icon(Icons.favorite_border)),
+              IconButton(onPressed: () {}, icon: const Icon(Icons.comment)),
+              IconButton(onPressed: () {}, icon: const Icon(Icons.share)),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+```
+
+########################################################################
+
+1. **Music Album Card**
+
+```
+import 'package:flutter/material.dart';
+
+class Question_answer extends StatelessWidget {
+  const Question_answer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: Colors.deepPurple.shade100,
+      elevation: 5,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      child: ListTile(
+        leading: ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: Image.asset('assets/album.jpg', width: 60, height: 60, fit: BoxFit.cover),
+        ),
+        title: const Text("Lost in Sound"),
+        subtitle: const Text("By DJ Flutter • 3:45"),
+        trailing: const Icon(Icons.play_circle_fill, color: Colors.deepPurple, size: 40),
+      ),
+    );
+  }
+}
+```
+
+########################################################################
+
+1. **Contact Card**
+
+```
+import 'package:flutter/material.dart';
+
+class Question_answer extends StatelessWidget {
+  const Question_answer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 6,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      child: ListTile(
+        leading: const CircleAvatar(
+          backgroundImage: AssetImage('assets/contact.jpg'),
+        ),
+        title: const Text("xyz"),
+        subtitle: const Text("info@rudransh.dev\n+91 8877655447"),
+        trailing: const Icon(Icons.call, color: Colors.green),
+      ),
+    );
+  }
+}
+```
+
+########################################################################
+
+1. **Greeting Card with Name Input**
+
+```
+import 'package:flutter/material.dart';
+
+class GreetingCard extends StatefulWidget {
+  const GreetingCard({super.key});
+
+  @override
+  State<GreetingCard> createState() => _GreetingCardState();
+}
+
+class _GreetingCardState extends State<GreetingCard> {
+  final nameController = TextEditingController();
+  String? message;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: Colors.pink.shade50,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text("🎉 Birthday Greeting 🎂", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+            TextField(
+              controller: nameController,
+              decoration: const InputDecoration(labelText: "Enter your name"),
+            ),
+            const SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  message = "🎈 Happy Birthday, ${nameController.text}! 🎁";
+                });
+              },
+              child: const Text("Submit"),
+            ),
+            const SizedBox(height: 20),
+            if (message != null)
+              Text(
+                message!,
+                style: const TextStyle(fontSize: 20, color: Colors.pink, fontWeight: FontWeight.bold),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+
+########################################################################
