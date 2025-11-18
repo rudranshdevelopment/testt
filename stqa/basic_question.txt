@@ -1,0 +1,258 @@
+
+## **1️⃣ Launch Browser & Open Website**
+
+**Question:** Write a script to open `https://www.google.com`, maximize the window, and print the page title.
+
+**Answer:**
+
+```python
+from selenium import webdriver
+
+driver = webdriver.Chrome()
+driver.get("https://www.google.com")
+driver.maximize_window()
+print("Page Title:", driver.title)
+driver.quit()
+
+```
+
+---
+
+## **2️⃣ Locate Elements by Different Locators**
+
+**Question:** Open Facebook and locate Email and Password fields using `By.ID` and `By.NAME`.
+
+**Answer:**
+
+```python
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+
+driver.get("https://www.facebook.com")
+
+email = driver.find_element(By.ID, "email")
+password = driver.find_element(By.NAME, "pass")
+
+print("Email field displayed:", email.is_displayed())
+print("Password field displayed:", password.is_displayed())
+driver.quit()
+
+```
+
+---
+
+## 🧩 **3️⃣ Perform Google Search**
+
+**Question:** Search for “IMCC College Pune” on Google and print the result page title.
+
+**Answer:**
+
+```python
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+import time
+
+driver = webdriver.Chrome()
+driver.get("https://www.google.com")
+
+search = driver.find_element(By.NAME, "q")
+search.send_keys("IMCC College Pune")
+search.send_keys(Keys.ENTER)
+
+time.sleep(2)
+print("Page Title:", driver.title)
+driver.quit()
+
+```
+
+---
+
+## 🧩 **4️⃣ Handling Frames**
+
+**Question:** Extract text from left, middle, and bottom frames from `https://the-internet.herokuapp.com/nested_frames`.
+
+**Answer:**
+
+```python
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+
+driver = webdriver.Chrome()
+driver.get("https://the-internet.herokuapp.com/nested_frames")
+
+driver.switch_to.frame("frame-top")
+driver.switch_to.frame("frame-left")
+print("Left:", driver.find_element(By.TAG_NAME, "body").text)
+
+driver.switch_to.parent_frame()
+driver.switch_to.frame("frame-middle")
+print("Middle:", driver.find_element(By.TAG_NAME, "body").text)
+
+driver.switch_to.default_content()
+driver.switch_to.frame("frame-bottom")
+print("Bottom:", driver.find_element(By.TAG_NAME, "body").text)
+
+driver.quit()
+
+```
+
+---
+
+## 🧩 **5️⃣ Handle Alerts**
+
+**Question:** Open `https://the-internet.herokuapp.com/javascript_alerts` and handle simple alert.
+
+**Answer:**
+
+```python
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+import time
+
+driver = webdriver.Chrome()
+driver.get("https://the-internet.herokuapp.com/javascript_alerts")
+
+driver.find_element(By.XPATH, "//button[text()='Click for JS Alert']").click()
+alert = driver.switch_to.alert
+print("Alert Text:", alert.text)
+alert.accept()
+time.sleep(1)
+driver.quit()
+
+```
+
+---
+
+## 🧩 **6️⃣ Take Screenshot**
+
+**Question:** Take a screenshot of `https://www.google.com` homepage.
+
+**Answer:**
+
+```python
+from selenium import webdriver
+
+driver = webdriver.Chrome()
+driver.get("https://www.google.com")
+driver.save_screenshot("google_home.png")
+print("Screenshot saved!")
+driver.quit()
+
+```
+
+---
+
+## 🧩 **7️⃣ Explicit Wait**
+
+**Question:** Wait until Google search box appears before typing.
+
+**Answer:**
+
+```python
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+driver = webdriver.Chrome()
+driver.get("https://www.google.com")
+
+wait = WebDriverWait(driver, 10)
+search_box = wait.until(EC.presence_of_element_located((By.NAME, "q")))
+search_box.send_keys("IMCC College Pune")
+print("Search box found and text entered.")
+driver.quit()
+
+```
+
+---
+
+## 🧩 **8️⃣ Stale Element Reference Exception Demo**
+
+**Question:** Show how StaleElementReferenceException occurs.
+
+**Answer:**
+
+```python
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+driver = webdriver.Chrome()
+driver.get("https://www.google.com")
+
+wait = WebDriverWait(driver, 10)
+search_box = wait.until(EC.presence_of_element_located((By.NAME, "q")))
+search_box.send_keys("IMCC")
+search_box.send_keys(Keys.ENTER)
+
+driver.get("https://www.facebook.com")  # Page changed
+try:
+    search_box.clear()  # Will raise StaleElementReferenceException
+except Exception as e:
+    print("Exception Occurred:", type(e).__name__)
+driver.quit()
+
+```
+
+---
+
+## 🧩 **9️⃣ Handle Multiple Windows**
+
+**Question:** Open a new tab and switch between them.
+
+**Answer:**
+
+```python
+from selenium import webdriver
+import time
+
+driver = webdriver.Chrome()
+driver.get("https://www.google.com")
+
+driver.execute_script("window.open('https://www.facebook.com');")
+time.sleep(2)
+
+windows = driver.window_handles
+driver.switch_to.window(windows[1])
+print("Current URL:", driver.current_url)
+
+driver.switch_to.window(windows[0])
+print("Back to:", driver.current_url)
+driver.quit()
+
+```
+
+---
+
+## 🧩 **🔟 Mouse Hover**
+
+**Question:** Perform mouse hover on “About” link on Google homepage.
+
+**Answer:**
+
+```python
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.action_chains import ActionChains
+import time
+
+driver = webdriver.Chrome()
+driver.get("https://www.google.com")
+
+about = driver.find_element(By.LINK_TEXT, "About")
+ActionChains(driver).move_to_element(about).perform()
+print("Hovered on About link")
+time.sleep(2)
+driver.quit()
+
+```
+
+---

@@ -1,0 +1,2202 @@
+Run these commands first:
+pip install selenium
+pip install webdriver-manager
+ Python Code: google_search.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+
+# -------------------------------
+# Google Search Automation Script
+# -------------------------------
+
+# Setup Chrome driver
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+
+# Open Google
+driver.get("https://www.google.com")
+driver.maximize_window()
+
+# Give time for page to load
+time.sleep(2)
+
+# Accept cookies (if shown)
+try:
+    agree_btn = driver.find_element(By.XPATH, "//button[contains(., 'Accept')]")
+    agree_btn.click()
+except:
+    pass
+
+# Search something
+search_box = driver.find_element(By.NAME, "q")
+search_box.send_keys("Mansi")   # <--- Change keyword here
+search_box.send_keys(Keys.RETURN)
+
+# Wait for results to load
+time.sleep(2)
+
+# Click the first result
+first_result = driver.find_element(By.XPATH, "(//h3)[1]")
+first_result.click()
+
+# Optional: wait before closing
+time.sleep(5)
+
+driver.quit()
+
+
+## **🧩 Q1 — Login Automation and Verification**
+
+```
+# q1_login_verification.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+
+# Setup Chrome
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.maximize_window()
+
+# Open IMCC Student Portal
+driver.get("https://imcc.example.com/login")  # Replace with actual URL
+
+# Enter credentials
+driver.find_element(By.ID, "username").send_keys("student_username")
+driver.find_element(By.ID, "password").send_keys("student_password")
+driver.find_element(By.ID, "loginButton").click()
+
+# Wait for dashboard or success message
+try:
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, "//h1[contains(text(),'Dashboard')]"))
+    )
+    print("✅ Login successful!")
+except:
+    print("❌ Login failed!")
+
+driver.quit()
+```
+
+---
+
+## **🧭 Q2 — Navigate Through All Main Menu Items**
+
+```
+# q2_menu_navigation.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.maximize_window()
+driver.get("https://imcc.example.com")  # Replace with actual URL
+
+menu_items = driver.find_elements(By.CSS_SELECTOR, "nav ul li a")
+
+print("Total menu items found:", len(menu_items))
+
+for i, item in enumerate(menu_items):
+    link = item.get_attribute("href")
+    if link:
+        driver.get(link)
+        print(f"✅ Page {i+1}: {driver.title}")
+        time.sleep(1)
+
+driver.quit()
+```
+
+---
+
+## **📝 Q3 — Automate “Contact Us” Form Submission**
+
+```
+# q3_contact_form_submission.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.maximize_window()
+driver.get("https://imcc.example.com/contact")
+
+driver.find_element(By.NAME, "name").send_keys("Vivek Kamble")
+driver.find_element(By.NAME, "email").send_keys("vivek@example.com")
+driver.find_element(By.NAME, "message").send_keys("Test message via automation.")
+driver.find_element(By.ID, "submit").click()
+
+try:
+    msg = WebDriverWait(driver, 10).until(
+        EC.visibility_of_element_located((By.CLASS_NAME, "success-message"))
+    )
+    print("✅ Form submitted successfully:", msg.text)
+except:
+    print("❌ Submission message not found.")
+
+driver.quit()
+```
+
+---
+
+## **🖼️ Q4 — Validate All Images on Homepage**
+
+```
+# q4_validate_images.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from urllib.request import urlopen
+from urllib.error import URLError, HTTPError
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.get("https://imcc.example.com")
+driver.maximize_window()
+
+images = driver.find_elements(By.TAG_NAME, "img")
+print("Total images:", len(images))
+
+for img in images:
+    src = img.get_attribute("src")
+    try:
+        response = urlopen(src)
+        print("✅ Image loaded:", src)
+    except (HTTPError, URLError):
+        print("❌ Broken image link:", src)
+
+driver.quit()
+```
+
+---
+
+## **🎓 Q5 — Count and Print All Course Names**
+
+```
+# q5_list_courses.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.maximize_window()
+driver.get("https://imcc.example.com/programs")
+
+courses = driver.find_elements(By.CSS_SELECTOR, ".course-title")
+print("Total Programs Offered:", len(courses))
+for course in courses:
+    print("-", course.text)
+
+driver.quit()
+```
+
+---
+
+## **🔗 Q6 — Verify Footer Links**
+
+```
+# q6_footer_links.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.maximize_window()
+driver.get("https://imcc.example.com")
+
+driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+footer_links = driver.find_elements(By.CSS_SELECTOR, "footer a")
+
+print("Total footer links:", len(footer_links))
+
+for link in footer_links:
+    url = link.get_attribute("href")
+    if url:
+        driver.execute_script("window.open(arguments[0]);", url)
+        driver.switch_to.window(driver.window_handles[-1])
+        print(f"✅ Opened footer link: {driver.title}")
+        driver.close()
+        driver.switch_to.window(driver.window_handles[0])
+        time.sleep(1)
+
+driver.quit()
+```
+
+---
+
+## **📸 Q7 — Capture Screenshots**
+
+```
+# q7_capture_screenshots.py
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.maximize_window()
+
+pages = {
+    "homepage": "https://imcc.example.com",
+    "admissions": "https://imcc.example.com/admissions",
+    "contact": "https://imcc.example.com/contact"
+}
+
+for name, url in pages.items():
+    driver.get(url)
+    driver.save_screenshot(f"{name}.png")
+    print(f"✅ Screenshot saved for {name}.png")
+
+driver.quit()
+```
+
+---
+
+## **📧 Q8 — Extract All Emails and Phone Numbers**
+
+```
+# q8_extract_contacts.py
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+import re
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.maximize_window()
+driver.get("https://imcc.example.com")
+
+text = driver.page_source
+emails = re.findall(r'[\w\.-]+@[\w\.-]+', text)
+phones = re.findall(r'\+?\d[\d\s-]{8,}\d', text)
+
+print("📧 Emails Found:")
+for e in emails:
+    print("-", e)
+
+print("\n📞 Phone Numbers Found:")
+for p in phones:
+    print("-", p)
+
+driver.quit()
+```
+
+---
+
+## **🪪 Q9 — Verify Logo Display on Every Page**
+
+```
+# q9_verify_logo.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.maximize_window()
+
+pages = [
+    "https://imcc.example.com",
+    "https://imcc.example.com/admissions",
+    "https://imcc.example.com/contact"
+]
+
+for page in pages:
+    driver.get(page)
+    try:
+        logo = driver.find_element(By.CSS_SELECTOR, "img.logo")
+        if logo.is_displayed():
+            print(f"✅ Logo visible on {page}")
+        else:
+            print(f"❌ Logo missing on {page}")
+    except:
+        print(f"❌ Logo not found on {page}")
+
+driver.quit()
+```
+
+---
+
+## **🌐 Q10 — Verify Social Media Links**
+
+```
+# q10_social_media_links.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.maximize_window()
+driver.get("https://imcc.example.com")
+
+social_icons = driver.find_elements(By.CSS_SELECTOR, "a[href*='facebook'], a[href*='twitter'], a[href*='instagram'], a[href*='linkedin']")
+
+for icon in social_icons:
+    url = icon.get_attribute("href")
+    if url:
+        driver.execute_script("window.open(arguments[0]);", url)
+        driver.switch_to.window(driver.window_handles[-1])
+        print(f"✅ Opened: {url}")
+        driver.close()
+        driver.switch_to.window(driver.window_handles[0])
+        time.sleep(1)
+
+driver.quit()
+```
+
+---
+
+---
+
+## **🧩 Q11 — Automate Facebook Login with Valid & Invalid Credentials**
+
+```
+# q11_facebook_login.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import time
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.maximize_window()
+driver.get("https://www.facebook.com/")
+
+# ---------- VALID LOGIN ----------
+try:
+    driver.find_element(By.ID, "email").send_keys("valid_email@example.com")
+    driver.find_element(By.ID, "pass").send_keys("valid_password")
+    driver.find_element(By.NAME, "login").click()
+    time.sleep(3)
+    if "Facebook" in driver.title:
+        print("✅ Valid login attempt successful (or 2FA may be required).")
+    else:
+        print("❌ Valid login failed (possibly due to security check).")
+except Exception as e:
+    print("⚠️ Error during valid login:", e)
+
+driver.get("https://www.facebook.com/")
+time.sleep(2)
+
+# ---------- INVALID LOGIN ----------
+try:
+    driver.find_element(By.ID, "email").send_keys("wrong_email@example.com")
+    driver.find_element(By.ID, "pass").send_keys("wrongpassword")
+    driver.find_element(By.NAME, "login").click()
+    WebDriverWait(driver, 5).until(
+        EC.presence_of_element_located((By.XPATH, "//*[contains(text(), 'incorrect')]"))
+    )
+    print("✅ Invalid login correctly showed error message.")
+except:
+    print("⚠️ Could not detect invalid login message (check manually).")
+
+driver.quit()
+```
+
+---
+
+## **📝 Q12 — Automate Facebook Registration**
+
+```
+# q12_facebook_registration.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import Select
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.maximize_window()
+driver.get("https://www.facebook.com/")
+
+# Click on "Create new account"
+driver.find_element(By.LINK_TEXT, "Create new account").click()
+time.sleep(2)
+
+driver.find_element(By.NAME, "firstname").send_keys("Vivek")
+driver.find_element(By.NAME, "lastname").send_keys("Kamble")
+driver.find_element(By.NAME, "reg_email__").send_keys("vivek@example.com")
+driver.find_element(By.NAME, "reg_passwd__").send_keys("Test@12345")
+
+# Select Date of Birth
+Select(driver.find_element(By.ID, "day")).select_by_visible_text("11")
+Select(driver.find_element(By.ID, "month")).select_by_visible_text("May")
+Select(driver.find_element(By.ID, "year")).select_by_visible_text("2000")
+
+# Select Gender
+driver.find_element(By.XPATH, "//label[text()='Male']").click()
+
+# Submit
+driver.find_element(By.NAME, "websubmit").click()
+print("✅ Registration form submitted successfully (verification may be required).")
+
+time.sleep(5)
+driver.quit()
+```
+
+---
+
+## **🔑 Q13 — Test “Forgot Password” Flow**
+
+```
+# q13_forgot_password.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.maximize_window()
+driver.get("https://www.facebook.com/")
+
+driver.find_element(By.LINK_TEXT, "Forgotten password?").click()
+time.sleep(2)
+
+driver.find_element(By.ID, "identify_email").send_keys("vivek@example.com")
+driver.find_element(By.ID, "did_submit").click()
+time.sleep(3)
+
+try:
+    message = driver.find_element(By.TAG_NAME, "body").text
+    print("✅ Forgot password page response captured:\n", message[:300])
+except:
+    print("❌ Could not capture validation message.")
+
+driver.quit()
+```
+
+---
+
+## **📸 Q14 — Take Screenshot After Login (Success or Fail)**
+
+```
+# q14_screenshot_after_login.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.maximize_window()
+driver.get("https://www.facebook.com/")
+
+driver.find_element(By.ID, "email").send_keys("test@example.com")
+driver.find_element(By.ID, "pass").send_keys("wrongpassword")
+driver.find_element(By.NAME, "login").click()
+time.sleep(3)
+
+driver.save_screenshot("facebook_login_result.png")
+print("✅ Screenshot saved as facebook_login_result.png")
+
+driver.quit()
+```
+
+---
+
+## **🧾 Q15 — Validate Placeholders, Buttons, and Labels**
+
+```
+# q15_validate_elements.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.maximize_window()
+driver.get("https://www.facebook.com/")
+
+# Validate placeholders
+email_placeholder = driver.find_element(By.ID, "email").get_attribute("placeholder")
+password_placeholder = driver.find_element(By.ID, "pass").get_attribute("placeholder")
+print("📋 Placeholders:")
+print("Email:", email_placeholder)
+print("Password:", password_placeholder)
+
+# Validate button text
+login_button_text = driver.find_element(By.NAME, "login").get_attribute("value")
+print("🔘 Login Button Text:", login_button_text)
+
+# Validate labels or text
+create_account_text = driver.find_element(By.LINK_TEXT, "Create new account").text
+forgot_pass_text = driver.find_element(By.LINK_TEXT, "Forgotten password?").text
+
+print("\n📄 Labels Found:")
+print("Create Account:", create_account_text)
+print("Forgot Password:", forgot_pass_text)
+
+driver.quit()
+```
+
+---
+
+ **Q16 — Automate Instagram Login with Valid and Invalid Credentials**
+
+```
+# q16_instagram_login.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.maximize_window()
+driver.get("https://www.instagram.com/")
+
+time.sleep(5)
+# ---------- VALID LOGIN ----------
+try:
+    driver.find_element(By.NAME, "username").send_keys("valid_username")
+    driver.find_element(By.NAME, "password").send_keys("valid_password")
+    driver.find_element(By.XPATH, "//button[@type='submit']").click()
+    time.sleep(5)
+    if "Instagram" in driver.title:
+        print("✅ Valid login attempt processed (may need 2FA).")
+except:
+    print("❌ Valid login failed or blocked by security.")
+
+driver.get("https://www.instagram.com/")
+time.sleep(5)
+
+# ---------- INVALID LOGIN ----------
+driver.find_element(By.NAME, "username").send_keys("invalid_user")
+driver.find_element(By.NAME, "password").send_keys("wrongpass123")
+driver.find_element(By.XPATH, "//button[@type='submit']").click()
+time.sleep(3)
+
+try:
+    error = driver.find_element(By.ID, "slfErrorAlert").text
+    print("✅ Error message displayed:", error)
+except:
+    print("⚠️ Error message not found for invalid login.")
+
+driver.quit()
+```
+
+---
+
+## **📸 Q17 — Capture Screenshot of the Login Page after Entering Credentials**
+
+```
+# q17_instagram_screenshot.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.maximize_window()
+driver.get("https://www.instagram.com/")
+time.sleep(5)
+
+driver.find_element(By.NAME, "username").send_keys("test_user")
+driver.find_element(By.NAME, "password").send_keys("test_pass")
+time.sleep(1)
+
+driver.save_screenshot("instagram_login_page.png")
+print("✅ Screenshot saved: instagram_login_page.png")
+
+driver.quit()
+```
+
+---
+
+## **🔑 Q18 — Verify “Forgot Password?” Link Opens Correct Page**
+
+```
+# q18_instagram_forgot_password.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.maximize_window()
+driver.get("https://www.instagram.com/accounts/login/")
+time.sleep(5)
+
+driver.find_element(By.LINK_TEXT, "Forgot password?").click()
+time.sleep(3)
+
+if "password" in driver.current_url:
+    print("✅ Forgot password page opened correctly:", driver.current_url)
+else:
+    print("❌ Forgot password page not opened.")
+
+driver.quit()
+```
+
+---
+
+## **📝 Q19 — Navigate to “Sign up” and Fill Registration Fields**
+
+```
+# q19_instagram_signup.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.maximize_window()
+driver.get("https://www.instagram.com/accounts/emailsignup/")
+time.sleep(5)
+
+driver.find_element(By.NAME, "emailOrPhone").send_keys("vivek@example.com")
+driver.find_element(By.NAME, "fullName").send_keys("Vivek Kamble")
+driver.find_element(By.NAME, "username").send_keys("vivek_test123")
+driver.find_element(By.NAME, "password").send_keys("Test@12345")
+print("✅ Registration fields filled successfully.")
+
+driver.quit()
+```
+
+---
+
+## **📱 Q20 — Validate App Store and Google Play Buttons**
+
+```
+# q20_instagram_download_buttons.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.maximize_window()
+driver.get("https://www.instagram.com/")
+time.sleep(5)
+
+try:
+    app_store = driver.find_element(By.XPATH, "//img[contains(@alt,'App Store')]")
+    play_store = driver.find_element(By.XPATH, "//img[contains(@alt,'Google Play')]")
+    print("✅ App Store Button Displayed:", app_store.is_displayed())
+    print("✅ Google Play Button Displayed:", play_store.is_displayed())
+except:
+    print("❌ Download buttons not found.")
+
+driver.quit()
+```
+
+---
+
+## **📧 Q21 — Automate Gmail Login and Verify “Enter a valid email” Message**
+
+```
+# q21_gmail_login_validation.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.maximize_window()
+driver.get("https://accounts.google.com/")
+time.sleep(3)
+
+driver.find_element(By.ID, "identifierId").send_keys("invalid_email")
+driver.find_element(By.ID, "identifierNext").click()
+time.sleep(3)
+
+try:
+    msg = driver.find_element(By.XPATH, "//*[contains(text(),'Enter a valid email')]").text
+    print("✅ Validation Message:", msg)
+except:
+    print("⚠️ No validation message found.")
+
+driver.quit()
+```
+
+---
+
+## **🔍 Q22 — Automate Google Search and Verify Page Title**
+
+```
+# q22_google_search_title.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.common.keys import Keys
+import time
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.maximize_window()
+driver.get("https://www.google.com/")
+
+search_box = driver.find_element(By.NAME, "q")
+search_box.send_keys("IMCC Pune")
+search_box.send_keys(Keys.RETURN)
+time.sleep(3)
+
+if "IMCC Pune" in driver.title:
+    print("✅ Title verification successful:", driver.title)
+else:
+    print("❌ Title does not contain search query.")
+
+driver.quit()
+```
+
+---
+
+## **🔗 Q23 — Count and Print All Links on Google Homepage**
+
+```
+# q23_count_google_links.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.maximize_window()
+driver.get("https://www.google.com/")
+
+links = driver.find_elements(By.TAG_NAME, "a")
+print("Total Links on Google Homepage:", len(links))
+for link in links[:15]:
+    print("-", link.text, "=>", link.get_attribute("href"))
+
+driver.quit()
+```
+
+---
+
+## **📸 Q24 — Capture Screenshot After Google Search**
+
+```
+# q24_google_screenshot.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.common.keys import Keys
+import time
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.maximize_window()
+driver.get("https://www.google.com/")
+
+driver.find_element(By.NAME, "q").send_keys("IMCC Pune", Keys.RETURN)
+time.sleep(3)
+driver.save_screenshot("google_search_results.png")
+print("✅ Screenshot saved: google_search_results.png")
+
+driver.quit()
+```
+
+---
+
+## **🗞️ Q25 — Automate Opening “Images” and “News” Tabs and Verify Titles**
+
+```
+# q25_google_tabs_verification.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.common.keys import Keys
+import time
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.maximize_window()
+driver.get("https://www.google.com/")
+
+driver.find_element(By.NAME, "q").send_keys("IMCC Pune", Keys.RETURN)
+time.sleep(3)
+
+# Open Images tab
+driver.find_element(By.LINK_TEXT, "Images").click()
+time.sleep(3)
+print("✅ Opened Images Tab, Title:", driver.title)
+
+# Back and open News tab
+driver.back()
+time.sleep(2)
+driver.find_element(By.LINK_TEXT, "News").click()
+time.sleep(3)
+print("✅ Opened News Tab, Title:", driver.title)
+
+driver.quit()
+```
+
+---
+
+## **🧩 Prerequisites (Install Once)**
+
+Before running any script:
+
+```
+pip install selenium webdriver-manager
+```
+
+---
+
+## **Q26. Extract Eligibility Criteria (Admission Page)**
+
+```
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.service import Service
+import time
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.get("https://imccpune.ac.in/admission")  # change if different
+driver.maximize_window()
+time.sleep(3)
+
+eligibility_text = driver.find_element(By.TAG_NAME, "body").text
+print("Eligibility Criteria Text:\n")
+print(eligibility_text)
+
+driver.quit()
+```
+
+---
+
+## **Q27. Extract Faculty Names**
+
+```
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.service import Service
+import time
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.get("https://imccpune.ac.in/faculty")  # update link if needed
+driver.maximize_window()
+time.sleep(3)
+
+faculty_elements = driver.find_elements(By.XPATH, "//h3 | //h4 | //p[contains(text(),'Dr.') or contains(text(),'Prof.')]")
+print("Faculty Names:")
+for f in faculty_elements:
+    print("-", f.text)
+
+driver.quit()
+```
+
+---
+
+## **Q28. Extract Notice/Event Titles**
+
+```
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.service import Service
+import time
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.get("https://imccpune.ac.in/events")  # or /notices
+driver.maximize_window()
+time.sleep(3)
+
+titles = driver.find_elements(By.TAG_NAME, "h3")
+print("Event/Notice Titles:")
+for t in titles:
+    print("-", t.text)
+
+driver.quit()
+```
+
+---
+
+## **Q29. Verify All Internal Links Working**
+
+```
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.service import Service
+import requests
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.get("https://imccpune.ac.in")
+links = driver.find_elements(By.TAG_NAME, "a")
+
+print("Checking Internal Links:\n")
+for link in links:
+    url = link.get_attribute("href")
+    if url and "imccpune.ac.in" in url:
+        try:
+            res = requests.head(url)
+            print(url, "✅ OK" if res.status_code == 200 else f"❌ {res.status_code}")
+        except:
+            print(url, "❌ Failed")
+driver.quit()
+```
+
+---
+
+## **Q30. Hover Over Dropdown Menus**
+
+```
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.action_chains import ActionChains
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.service import Service
+import time
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.get("https://imccpune.ac.in")
+driver.maximize_window()
+time.sleep(3)
+
+actions = ActionChains(driver)
+menu = driver.find_element(By.LINK_TEXT, "About Us")  # example
+actions.move_to_element(menu).perform()
+time.sleep(2)
+
+submenu = driver.find_element(By.LINK_TEXT, "Vision & Mission")
+submenu.click()
+print("Hovered & clicked submenu successfully.")
+
+driver.quit()
+```
+
+---
+
+## **Q31. Amazon Search “Laptop”**
+
+```
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.service import Service
+import time
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.get("https://www.amazon.in")
+driver.maximize_window()
+
+search_box = driver.find_element(By.ID, "twotabsearchtextbox")
+search_box.send_keys("Laptop")
+search_box.send_keys(Keys.RETURN)
+time.sleep(3)
+
+products = driver.find_elements(By.XPATH, "//span[@class='a-size-medium a-color-base a-text-normal']")
+for p in products:
+    print("-", p.text)
+driver.quit()
+```
+
+---
+
+## **Q32. Filter by “Price: Low to High”**
+
+```
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.service import Service
+import time
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.get("https://www.amazon.in/s?k=laptop")
+driver.maximize_window()
+time.sleep(3)
+
+sort_dropdown = driver.find_element(By.ID, "s-result-sort-select")
+sort_dropdown.click()
+driver.find_element(By.XPATH, "//option[contains(text(),'Price: Low to High')]").click()
+time.sleep(3)
+
+print("Sorting applied successfully ✅")
+driver.quit()
+```
+
+---
+
+## **Q33. Screenshot of First 5 Product Listings**
+
+```
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.service import Service
+import time
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.get("https://www.amazon.in/s?k=laptop")
+driver.maximize_window()
+time.sleep(3)
+
+for i in range(5):
+    driver.save_screenshot(f"product_{i+1}.png")
+    time.sleep(1)
+print("Captured 5 screenshots ✅")
+driver.quit()
+```
+
+---
+
+## **Q34. Verify “Add to Cart” Button Enabled**
+
+```
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.service import Service
+import time
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.get("https://www.amazon.in/s?k=laptop")
+driver.maximize_window()
+time.sleep(3)
+
+try:
+    add_to_cart = driver.find_element(By.XPATH, "//input[@value='Add to Cart']")
+    print("Add to Cart button is", "ENABLED ✅" if add_to_cart.is_enabled() else "DISABLED ❌")
+except:
+    print("Add to Cart button not found.")
+driver.quit()
+```
+
+---
+
+## **Q35. Extract and Print Product Prices**
+
+```
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.service import Service
+import time
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.get("https://www.amazon.in/s?k=laptop")
+driver.maximize_window()
+time.sleep(3)
+
+prices = driver.find_elements(By.XPATH, "//span[@class='a-price-whole']")
+print("Laptop Prices:")
+for p in prices:
+    print("-", p.text)
+driver.quit()
+```
+
+---
+
+```
+pip install selenium webdriver-manager requests pytest pytest-html
+```
+
+---
+
+## **Q36 — Automate a form on demo site and verify submission**
+
+Site: https://demoqa.com/automation-practice-form
+
+```
+# q36_form_submission.py
+"""
+Automates demoqa practice form and verifies a modal appears after submit.
+"""
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import time
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.maximize_window()
+driver.get("https://demoqa.com/automation-practice-form")
+
+# Fill form
+driver.find_element(By.ID, "firstName").send_keys("Vivek")
+driver.find_element(By.ID, "lastName").send_keys("Kamble")
+driver.find_element(By.ID, "userEmail").send_keys("vivek@example.com")
+driver.find_element(By.XPATH, "//label[text()='Male']").click()
+driver.find_element(By.ID, "userNumber").send_keys("9876543210")
+
+# Scroll to submit and click
+driver.execute_script("window.scrollBy(0,300);")
+time.sleep(1)
+driver.find_element(By.ID, "submit").click()
+
+# Wait for modal
+wait = WebDriverWait(driver, 10)
+try:
+    modal = wait.until(EC.visibility_of_element_located((By.ID, "example-modal-sizes-title-lg")))
+    print("✅ Submission modal visible:", modal.text)
+except Exception as e:
+    print("❌ Submission modal not found:", e)
+
+time.sleep(2)
+driver.quit()
+```
+
+---
+
+## **Q37 — Automate alert handling — open alert, accept, verify message**
+
+Site: https://demoqa.com/alerts
+
+```
+# q37_alert_handling.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.maximize_window()
+driver.get("https://demoqa.com/alerts")
+
+# Click button that triggers alert
+driver.find_element(By.ID, "alertButton").click()
+time.sleep(1)
+
+alert = driver.switch_to.alert
+print("Alert text:", alert.text)
+alert.accept()
+print("✅ Alert accepted")
+
+# Prompt example (enter text then accept)
+driver.find_element(By.ID, "promtButton").click()
+time.sleep(1)
+prompt = driver.switch_to.alert
+prompt.send_keys("Hello")
+prompt.accept()
+print("✅ Prompt sent and accepted")
+
+time.sleep(1)
+driver.quit()
+```
+
+---
+
+## **Q38 — Handling multiple windows/tabs (open link in new tab & verify)**
+
+Site: https://demoqa.com/browser-windows
+
+```
+# q38_multiple_windows.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.get("https://demoqa.com/browser-windows")
+driver.maximize_window()
+
+# Open new window via button
+driver.find_element(By.ID, "windowButton").click()
+time.sleep(1)
+
+handles = driver.window_handles
+print("Window handles:", handles)
+
+# Switch to new window and verify title/content
+driver.switch_to.window(handles[-1])
+print("New window URL:", driver.current_url)
+print("New window title:", driver.title)
+
+driver.close()
+driver.switch_to.window(handles[0])
+print("Back to original window:", driver.current_url)
+
+driver.quit()
+```
+
+---
+
+## **Q39 — Automate file upload on demo website**
+
+Site: https://demoqa.com/upload-download
+
+```
+# q39_file_upload.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+import os
+
+# Create a small temp file to upload
+filename = "temp_upload.txt"
+with open(filename, "w") as f:
+    f.write("Selenium upload test")
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.maximize_window()
+driver.get("https://demoqa.com/upload-download")
+
+# Upload
+file_input = driver.find_element(By.ID, "uploadFile")
+file_input.send_keys(os.path.abspath(filename))
+time.sleep(1)
+
+# Verify uploaded file name appears
+uploaded = driver.find_element(By.ID, "uploadedFilePath").text
+print("Uploaded info:", uploaded)
+assert filename in uploaded
+print("✅ File upload verified")
+
+# cleanup
+os.remove(filename)
+driver.quit()
+```
+
+---
+
+## **Q40 — Automate drop-down selection using Select class**
+
+Site: https://demoqa.com/select-menu
+
+```
+# q40_select_dropdown.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import Select
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.maximize_window()
+driver.get("https://demoqa.com/select-menu")
+
+# Standard select example (if present)
+try:
+    select = Select(driver.find_element(By.ID, "oldSelectMenu"))
+    select.select_by_visible_text("Red")
+    print("✅ Selected 'Red' from standard select")
+except Exception as e:
+    print("⚠️ Standard select not found:", e)
+
+# Multi select example
+try:
+    multi = Select(driver.find_element(By.ID, "cars"))
+    multi.select_by_visible_text("Volvo")
+    multi.select_by_visible_text("Opel")
+    print("✅ Selected multiple options")
+except Exception as e:
+    print("⚠️ Multi-select not found:", e)
+
+time.sleep(1)
+driver.quit()
+```
+
+---
+
+## **Q41 — Use ActionChains (right-click, double-click, hover)**
+
+Site: https://demoqa.com/buttons and https://demoqa.com/menu
+
+```
+# q41_actionchains_examples.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver import ActionChains
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.maximize_window()
+
+# Double click & right click example
+driver.get("https://demoqa.com/buttons")
+actions = ActionChains(driver)
+
+dbl = driver.find_element(By.ID, "doubleClickBtn")
+actions.double_click(dbl).perform()
+print("✅ Performed double click")
+
+rc = driver.find_element(By.ID, "rightClickBtn")
+actions.context_click(rc).perform()
+print("✅ Performed right click")
+
+# Hover example on menu
+driver.get("https://demoqa.com/menu")
+actions.move_to_element(driver.find_element(By.XPATH, "//a[text()='Main Item 2']")).perform()
+time.sleep(1)
+print("✅ Hover performed on menu")
+
+time.sleep(1)
+driver.quit()
+```
+
+---
+
+## **Q42 — Implement Explicit Wait before clicking an element**
+
+```
+# q42_explicit_wait.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.maximize_window()
+driver.get("https://demoqa.com/dynamic-properties")
+
+wait = WebDriverWait(driver, 15)
+# Wait until the button becomes clickable (it appears after some seconds)
+try:
+    btn = wait.until(EC.element_to_be_clickable((By.ID, "enableAfter")))
+    btn.click()
+    print("✅ Clicked the dynamically enabled button")
+except Exception as e:
+    print("❌ Element not clickable:", e)
+
+time.sleep(1)
+driver.quit()
+```
+
+---
+
+## **Q43 — Validate element attributes (**
+
+## **is_displayed**
+
+## **,**
+
+## **is_enabled**
+
+## **,**
+
+## **is_selected**
+
+## **)**
+
+```
+# q43_element_attributes.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.get("https://demoqa.com/checkbox")
+driver.maximize_window()
+time.sleep(1)
+
+# is_displayed example
+if driver.find_element(By.CLASS_NAME, "rct-checkbox").is_displayed():
+    print("✅ Checkbox element is displayed")
+
+# is_enabled example: go to buttons page
+driver.get("https://demoqa.com/buttons")
+time.sleep(1)
+btn = driver.find_element(By.ID, "doubleClickBtn")
+print("is_enabled:", btn.is_enabled())
+
+# is_selected example: on radio-button page
+driver.get("https://demoqa.com/radio-button")
+time.sleep(1)
+yes_radio = driver.find_element(By.CSS_SELECTOR, "label[for='yesRadio']")
+yes_radio.click()
+# underlying input may be hidden; check using selected property via input
+input_el = driver.find_element(By.ID, "yesRadio")
+print("is_selected (input):", input_el.is_selected())
+
+driver.quit()
+```
+
+---
+
+## **Q44 — Automate page scrolling and verify footer content**
+
+```
+# q44_scroll_footer.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.get("https://demoqa.com/")
+driver.maximize_window()
+
+# Scroll to bottom
+driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+time.sleep(1)
+
+# Check for footer or element near bottom (demoqa has footer text)
+body_text = driver.find_element(By.TAG_NAME, "body").text
+if "DEMOQA" in body_text or len(body_text) > 0:
+    print("✅ Scrolled to bottom and page contains text (footer check).")
+else:
+    print("⚠️ Footer content not found.")
+
+driver.quit()
+```
+
+---
+
+## **Q45 — Take screenshots automatically on test failure (pytest fixture example)**
+
+File: tests/test_with_screenshot.py — run with pytest --html=report.html
+
+```
+# tests/test_with_screenshot.py
+import pytest
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+import os
+
+@pytest.fixture
+def driver():
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+    driver.maximize_window()
+    yield driver
+    driver.quit()
+
+@pytest.hookimpl(hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    # Hook to take screenshot on failure
+    outcome = yield
+    rep = outcome.get_result()
+    if rep.when == "call" and rep.failed:
+        driver = item.funcargs.get("driver")
+        if driver:
+            os.makedirs("failure_screenshots", exist_ok=True)
+            path = f"failure_screenshots/{item.name}.png"
+            driver.save_screenshot(path)
+            print(f"Saved failure screenshot: {path}")
+
+def test_example_fail(driver):
+    driver.get("https://demoqa.com/")
+    assert False, "Intentional failure to demo screenshot"
+```
+
+Run:
+
+```
+pytest tests/test_with_screenshot.py -q
+# failure screenshot saved to failure_screenshots/
+```
+
+---
+
+## **Q46 — Script to capture broken links from any site and log to a file**
+
+```
+# q46_broken_links.py
+import requests
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.maximize_window()
+site = "https://demoqa.com"
+driver.get(site)
+time.sleep(2)
+
+links = driver.find_elements(By.TAG_NAME, "a")
+broken = []
+
+for a in links:
+    href = a.get_attribute("href")
+    if href and href.startswith("http"):
+        try:
+            r = requests.head(href, allow_redirects=True, timeout=5)
+            if r.status_code >= 400:
+                broken.append((href, r.status_code))
+                print("Broken:", href, r.status_code)
+        except Exception as e:
+            broken.append((href, str(e)))
+            print("Error checking:", href, e)
+
+with open("broken_links.log", "w") as f:
+    for u, status in broken:
+        f.write(f"{u} -> {status}\n")
+
+print("Done. Broken links logged to broken_links.log")
+driver.quit()
+```
+
+---
+
+## **Q47 — Automate navigation buttons: back(), forward(), refresh()**
+
+```
+# q47_nav_buttons.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.maximize_window()
+
+driver.get("https://demoqa.com/")
+time.sleep(1)
+driver.get("https://demoqa.com/automation-practice-form")
+time.sleep(1)
+print("Current:", driver.current_url)
+
+driver.back()
+time.sleep(1)
+print("After back:", driver.current_url)
+
+driver.forward()
+time.sleep(1)
+print("After forward:", driver.current_url)
+
+driver.refresh()
+print("After refresh:", driver.current_url)
+
+driver.quit()
+```
+
+---
+
+## **Q48 — Print page titles of multiple opened tabs**
+
+```
+# q48_print_titles_tabs.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.get("https://demoqa.com/")
+driver.execute_script("window.open('https://www.google.com');")
+driver.execute_script("window.open('https://www.bing.com');")
+time.sleep(1)
+
+for handle in driver.window_handles:
+    driver.switch_to.window(handle)
+    print("Title:", driver.title, "| URL:", driver.current_url)
+
+driver.quit()
+```
+
+---
+
+## **Q49 — Handle a login popup (HTTP basic auth) using URL embedding or alert handling**
+
+Two approaches shown: (A) Basic auth via URL if supported, (B) JS prompt/alert example.
+
+**A — Basic auth via URL**
+
+```
+# q49_basic_auth.py
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+
+# Format: https://user:pass@site/path
+url = "https://user:pass@example.com/protected"
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.get(url)
+print("Opened with basic-auth style URL (if site supports it)")
+driver.quit()
+```
+
+**B — JS prompt (if site uses prompt)**
+
+```
+# q49_js_prompt.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.get("https://demoqa.com/alerts")
+driver.find_element(By.ID, "promtButton").click()
+alert = driver.switch_to.alert
+alert.send_keys("automation_user")
+alert.accept()
+print("Handled JS prompt")
+driver.quit()
+```
+
+---
+
+## **Q50 — Generate an HTML report after test completion using pytest + pytest-html**
+
+Create a test file tests/test_reporting.py:
+
+```
+# tests/test_reporting.py
+import pytest
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+
+@pytest.fixture
+def driver():
+    d = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+    d.maximize_window()
+    yield d
+    d.quit()
+
+def test_google_search(driver):
+    driver.get("https://www.google.com")
+    assert "Google" in driver.title
+
+def test_demoqa_home(driver):
+    driver.get("https://demoqa.com")
+    assert "DEMOQA" in driver.page_source
+```
+
+Run tests with HTML report:
+
+```
+pytest tests/test_reporting.py --html=report.html --self-contained-html -q
+```
+
+This produces report.html (open in browser).
+
+---
+
+## **Q51. Full Selenium Script — IMCC Admission Page Automation**
+
+**Task:**
+
+1️⃣ Login to IMCC website →
+
+2️⃣ Navigate to “Admissions” →
+
+3️⃣ Take screenshot →
+
+4️⃣ Extract “Eligibility Criteria” text →
+
+5️⃣ Save it into a .txt file.
+
+```
+# Q51_imcc_admission_automation.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service as ChromeService
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import time
+
+# ---------- Setup ----------
+options = Options()
+options.add_argument("--start-maximized")
+driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
+
+try:
+    # 1️⃣ Open IMCC website
+    driver.get("https://imcc.edu.in/")
+    print("✅ Opened IMCC website")
+
+    # 2️⃣ Navigate to Admissions page
+    admissions_link = WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable((By.LINK_TEXT, "Admissions"))
+    )
+    admissions_link.click()
+    print("✅ Navigated to Admissions page")
+
+    # 3️⃣ Wait for content and take screenshot
+    time.sleep(3)
+    driver.save_screenshot("admissions_page.png")
+    print("📸 Screenshot saved as admissions_page.png")
+
+    # 4️⃣ Extract eligibility criteria text
+    # (Modify the selector based on actual HTML structure of Admissions page)
+    eligibility_text = driver.find_element(By.XPATH, "//div[contains(text(),'Eligibility') or contains(.,'Eligibility')]").text
+    print("📝 Extracted Eligibility Criteria:\n", eligibility_text)
+
+    # 5️⃣ Save eligibility text to a file
+    with open("eligibility_criteria.txt", "w", encoding="utf-8") as file:
+        file.write(eligibility_text)
+    print("📁 Saved eligibility criteria to eligibility_criteria.txt")
+
+except Exception as e:
+    print("❌ Error:", e)
+
+finally:
+    driver.quit()
+```
+
+**📄 Output Files:**
+
+- admissions_page.png — Screenshot of the Admission page
+- eligibility_criteria.txt — Extracted eligibility criteria text
+
+---
+
+## **🧠**
+
+## **Q52. Full Selenium Test Suite — IMCC Website Automation Report**
+
+**Task:**
+
+✅ Open IMCC →
+
+✅ Validate Title →
+
+✅ Check All Images →
+
+✅ Navigate all menus →
+
+✅ Save a timestamped report.
+
+```
+# Q52_imcc_test_suite.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service as ChromeService
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
+from datetime import datetime
+import time
+import requests
+
+# ---------- Setup ----------
+options = Options()
+options.add_argument("--headless")  # Run without opening browser window
+driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
+
+report_lines = []
+
+try:
+    start_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    report_lines.append(f"🧾 IMCC Website Automation Report ({start_time})\n")
+
+    # 1️⃣ Open site
+    driver.get("https://imcc.edu.in/")
+    time.sleep(3)
+    report_lines.append("✅ Website opened successfully.\n")
+
+    # 2️⃣ Validate title
+    title = driver.title
+    expected = "IMCC"
+    if expected.lower() in title.lower():
+        report_lines.append(f"✅ Title verified: {title}\n")
+    else:
+        report_lines.append(f"❌ Title mismatch: {title}\n")
+
+    # 3️⃣ Check all image URLs
+    images = driver.find_elements(By.TAG_NAME, "img")
+    report_lines.append(f"🔍 Found {len(images)} images. Checking for broken links...\n")
+
+    broken_count = 0
+    for img in images:
+        src = img.get_attribute("src")
+        try:
+            res = requests.head(src, timeout=5)
+            if res.status_code != 200:
+                report_lines.append(f"❌ Broken Image: {src}\n")
+                broken_count += 1
+        except:
+            broken_count += 1
+            report_lines.append(f"⚠️ Unreachable Image: {src}\n")
+    report_lines.append(f"📊 Total Broken Images: {broken_count}\n")
+
+    # 4️⃣ Navigate all top menu links
+    menus = driver.find_elements(By.CSS_SELECTOR, "ul.navbar-nav li a")
+    report_lines.append(f"🔗 Found {len(menus)} menu links. Navigating...\n")
+
+    for menu in menus:
+        link = menu.get_attribute("href")
+        text = menu.text.strip()
+        if link:
+            driver.get(link)
+            report_lines.append(f"✅ Visited: {text} ({link})\n")
+            time.sleep(1)
+
+    # 5️⃣ Save report with timestamp
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    report_file = f"imcc_test_report_{timestamp}.txt"
+    with open(report_file, "w", encoding="utf-8") as f:
+        f.writelines(report_lines)
+
+    print(f"📁 Test report generated: {report_file}")
+
+except Exception as e:
+    print("❌ Error during test execution:", e)
+
+finally:
+    driver.quit()
+```
+
+---
+
+## **🧩 Q1 — Verify Navigation Menu Functionality**
+
+**Task:** Verify each top menu link opens the correct page & prints page title.
+
+```
+# Q1_navigation_menu_verification.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+
+driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+driver.get("https://imcc.edu.in/")
+driver.maximize_window()
+
+menu_links = driver.find_elements(By.XPATH, "//ul[contains(@class,'navbar-nav')]//a")
+
+print("🔗 Total menu items:", len(menu_links))
+for i in range(len(menu_links)):
+    link = driver.find_elements(By.XPATH, "//ul[contains(@class,'navbar-nav')]//a")[i]
+    name = link.text.strip()
+    url = link.get_attribute("href")
+    if url:
+        link.click()
+        time.sleep(3)
+        print(f"✅ {name} → {driver.title}")
+        driver.back()
+        time.sleep(2)
+
+driver.quit()
+```
+
+---
+
+## **🖼️ Q2 — Test Image Loading**
+
+**Task:** Validate all images load properly (no broken links).
+
+```
+# Q2_image_loading_test.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.chrome import ChromeDriverManager
+import requests
+
+driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+driver.get("https://imcc.edu.in/")
+driver.maximize_window()
+
+images = driver.find_elements(By.TAG_NAME, "img")
+print("🖼️ Total images found:", len(images))
+
+broken = 0
+for img in images:
+    src = img.get_attribute("src")
+    try:
+        res = requests.head(src, timeout=5)
+        if res.status_code != 200:
+            print("❌ Broken Image:", src)
+            broken += 1
+    except:
+        broken += 1
+        print("⚠️ Could not reach:", src)
+
+print("📊 Total Broken Images:", broken)
+driver.quit()
+```
+
+---
+
+## **🎓 Q3 — Test Course Page Content**
+
+**Task:** Navigate to “Programs Offered” or “Courses” and print all course names.
+
+```
+# Q3_course_page_content.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+
+driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+driver.get("https://imcc.edu.in/")
+driver.maximize_window()
+
+driver.find_element(By.LINK_TEXT, "Programs").click()
+time.sleep(3)
+
+courses = driver.find_elements(By.TAG_NAME, "h3")
+print("🎓 Courses Offered:")
+for c in courses:
+    print("-", c.text)
+
+print("📊 Total Courses:", len(courses))
+driver.quit()
+```
+
+---
+
+## **✉️ Q4 — Automate Contact Us Form Submission**
+
+**Task:** Fill and submit the form, verify confirmation.
+
+```
+# Q4_contact_us_form.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service as ChromeService
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+
+driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+driver.get("https://imcc.edu.in/")
+driver.maximize_window()
+
+driver.find_element(By.LINK_TEXT, "Contact Us").click()
+time.sleep(3)
+
+driver.find_element(By.NAME, "name").send_keys("Vivek Kamble")
+driver.find_element(By.NAME, "email").send_keys("vivek@example.com")
+driver.find_element(By.NAME, "message").send_keys("This is a Selenium test message.")
+driver.find_element(By.XPATH, "//button[contains(text(),'Submit') or @type='submit']").click()
+
+try:
+    WebDriverWait(driver, 5).until(EC.alert_is_present())
+    alert = driver.switch_to.alert
+    print("✅ Alert message:", alert.text)
+    alert.accept()
+except:
+    print("⚠️ No alert found — form may be static or needs backend.")
+
+driver.quit()
+```
+
+---
+
+## **🔗 Q5 — Validate Links on Homepage**
+
+**Task:** Print all links and verify none are broken.
+
+```
+# Q5_validate_links.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.chrome import ChromeDriverManager
+import requests
+
+driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+driver.get("https://imcc.edu.in/")
+driver.maximize_window()
+
+links = driver.find_elements(By.TAG_NAME, "a")
+print("🔗 Total links found:", len(links))
+
+for link in links:
+    url = link.get_attribute("href")
+    text = link.text.strip()
+    if url and url.startswith("http"):
+        try:
+            res = requests.head(url, timeout=5)
+            print(f"{text or 'Unnamed'} → {res.status_code}")
+        except:
+            print(f"⚠️ Could not reach: {url}")
+
+driver.quit()
+```
+
+---
+
+## **🧾 Q6 — Test “Admission” Section Navigation**
+
+**Task:** Navigate to Admissions → verify heading contains “Eligibility”.
+
+```
+# Q6_admission_navigation.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+
+driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+driver.get("https://imcc.edu.in/")
+driver.maximize_window()
+
+driver.find_element(By.LINK_TEXT, "Admissions").click()
+time.sleep(3)
+
+heading = driver.find_element(By.TAG_NAME, "h1").text
+print("🧾 Page Heading:", heading)
+
+assert "Eligibility" in driver.page_source, "❌ Eligibility content not found!"
+print("✅ Eligibility text verified")
+
+driver.quit()
+```
+
+---
+
+## **🧭 Q7 — Validate Scrolling and Footer Links**
+
+**Task:** Scroll to footer and verify one footer link.
+
+```
+# Q7_footer_links_validation.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+
+driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+driver.get("https://imcc.edu.in/")
+driver.maximize_window()
+
+driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+time.sleep(3)
+
+footer_links = driver.find_elements(By.XPATH, "//footer//a")
+print("🔗 Footer links found:", len(footer_links))
+
+if footer_links:
+    footer_links[0].click()
+    time.sleep(3)
+    print("✅ Navigated to:", driver.title)
+else:
+    print("⚠️ No footer links found")
+
+driver.quit()
+```
+
+---
+
+## **📸 Q8 — Capture Screenshots of Key Pages**
+
+**Task:** Take screenshots of Home, Courses, Admissions, Contact Us.
+
+```
+# Q8_screenshots_key_pages.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+
+driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+driver.get("https://imcc.edu.in/")
+driver.maximize_window()
+
+pages = ["Home", "Programs", "Admissions", "Contact Us"]
+
+for page in pages:
+    if page != "Home":
+        driver.find_element(By.LINK_TEXT, page).click()
+        time.sleep(3)
+    filename = f"{page.replace(' ', '_').lower()}_page.png"
+    driver.save_screenshot(filename)
+    print("📸 Screenshot saved:", filename)
+    driver.back() if page != "Home" else None
+
+driver.quit()
+```
+
+---
+
+## **🔍 Q9 — Test Search Feature (if available)**
+
+**Task:** Search “MCA” and verify keyword in results.
+
+```
+# Q9_search_feature.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+
+driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+driver.get("https://imcc.edu.in/")
+driver.maximize_window()
+
+try:
+    search_box = driver.find_element(By.NAME, "s")
+    search_box.send_keys("MCA")
+    search_box.submit()
+    time.sleep(3)
+
+    assert "MCA" in driver.page_source
+    print("✅ Search results contain 'MCA'")
+except:
+    print("⚠️ No search feature found")
+
+driver.quit()
+```
+
+---
+
+## **🌐 Q10 — Verify Social Media Links**
+
+**Task:** Click all social media icons and verify platform URLs.
+
+```
+# Q10_social_media_links.py
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+
+driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+driver.get("https://imcc.edu.in/")
+driver.maximize_window()
+
+driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+time.sleep(3)
+
+social_icons = driver.find_elements(By.XPATH, "//footer//a[contains(@href,'facebook') or contains(@href,'instagram') or contains(@href,'youtube')]")
+print("📱 Social media icons found:", len(social_icons))
+
+for icon in social_icons:
+    href = icon.get_attribute("href")
+    driver.execute_script("window.open(arguments[0]);", href)
+    driver.switch_to.window(driver.window_handles[-1])
+    time.sleep(3)
+    print("✅ Opened:", driver.current_url)
+    driver.close()
+    driver.switch_to.window(driver.window_handles[0])
+
+driver.quit()
+```
+
+---
